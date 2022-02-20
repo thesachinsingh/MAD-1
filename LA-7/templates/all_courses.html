@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+</head>
+<body>
+    
+    {% if c %}
+    <div>
+        <h2>All Courses</h2>
+        <table id = "all-courses">
+            <tr>
+                <th>SNo</th>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Course Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for x in c %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="/course/{{ x.course_id }}">{{ x.course_code}}</a></td>
+                <td>{{ x.course_name }}</td>
+                <td>{{ x.course_description }}</td>
+                <td>
+                <a href="/course/{{ x.course_id }}/update">Update</a>
+                <a href="/course/{{ x.course_id }}/delete">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+    {% else %}
+    <h2>No Course exists in the database</h2>
+    {% endif %}
+
+    <a href="/course/create">+ Add Course</a>
+    <br>
+    <br>
+    <a href="/">Go to Students</a>
+
+
+
+</body>
+</html>

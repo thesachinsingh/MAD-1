@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details</title>
+</head>
+
+<body>
+
+    <h2>Course Details</h2>
+
+    <table id="course-detail">
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Course Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>c_code</td>
+                <td>c_name</td>
+                <td>c_desc</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if studs %}
+    <table id="course-table">
+        <thead>
+            <tr>
+                <th>SNo</th>
+                <th>Roll Number</th>
+                <th>Student First Name</th>
+                <th>Student Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in studs %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ x.roll_number}}</td>
+                <td>{{ x.first_name}}</td>
+                <td>{{ x.last_name}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+
+
+
+</body>
+
+</html>

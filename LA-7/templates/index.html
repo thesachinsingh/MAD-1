@@ -7,10 +7,11 @@
     <title>Home</title>
 </head>
 <body>
-    <div>
+    <!-- <div>
 
-    </div>
+    </div> -->
     <div>
+        {% if all_list %}
         <table id = "all-students">
             <tr>
             <th>SNo</th>
@@ -19,20 +20,24 @@
             <th>Last Name</th>
             <th>Actions</th>
             </tr>
-            {% for %}
+            {% for x in all_list %}
             <tr>
             <td>{{ loop.index }}</td>
-            <td><a href="/student/{{ student_id }}">{{ roll_number_1 }}</a></td>
-            <td>{{ first_name_1 }}</td>
-            <td>{{ last_name_1 }}</td>
+            <td><a href="/student/{{ x.student_id }}">{{ x.roll_number_1 }}</a></td>
+            <td>{{ x.first_name_1 }}</td>
+            <td>{{ x.last_name_1 }}</td>
             <td>
-            <a href="/student/{{student_id}}/update">Update</a>
-            <a href="/student/{{student_id}}/delete">Delete</a>
+            <a href="/student/{{ x.student_id }}/update">Update</a>
+            <a href="/student/{{ x.student_id }}/delete">Delete</a>
             </td>
             </tr>
             {% endfor %}
             
-            </table>
+        </table>
+        {% else %}
+        <p>No student found. Add the students now!</p>
+        {% endif %} 
+        <a href="/student/create">+ Add Student</a>
     </div>
 </body>
 </html>
