@@ -175,11 +175,13 @@ def del_course(course_id):
     return redirect("/")
 
 
-
-
-
-
-
+#11
+@app.route("/course/<int:course_id>")
+def course_details(course_id):
+    course_data = course.query.get(course_id)
+    e_data = enrollments.query.get(ecourse_id = course_id)
+    return render_template("course_details.html", course_data = course_data)
+    
 
 
 
