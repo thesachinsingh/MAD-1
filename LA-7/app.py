@@ -1,12 +1,12 @@
-import os
+# import os
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from models import db, student, course, enrollments
 
 app = Flask(__name__)
 
-curr_dir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(curr_dir, 'week7_database.sqlite3')
+# curr_dir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///week7_database.sqlite3'
 db.init_app(app)
 
 
@@ -16,6 +16,7 @@ db.init_app(app)
 @app.route('/')
 def homepage():
     all_list = student.query.all()
+    # print(all_list[1])
     return render_template("index.html", all_list = all_list)    
 
 
@@ -64,10 +65,22 @@ def student_create():
 @app.route("/student/<int:student_id>/update", methods = ['GET', 'POST'])
 def update_student(student_id):
     if request.method == 'POST':
-        pass
+        f_name = request.form['f_name']
+        l_name = request.form.get('l_name', '')
+        course_taken = request.form.get('course', 'None')
+
+        s = student.query.get(student_id)
+        s.first_name = f_name
+        s.last_name = l_name
+        db.session.commit()
+        enrol = enrollments(estudent_id = student_id, ecourse_id = course_taken)
+        db.session.add(enrol)
+        db.session.commit()
+        return redirect('/')
     
-    all_courses = course.query.all()
-    return render_template("update_student.html")
+    a_student = student.query.get(student_id)
+    courses = course.query.all()
+    return render_template("update_student.html", data=a_student, all_courses = courses)
 
 
 
@@ -90,8 +103,12 @@ def del_student(student_id):
 @app.route("/student/<int:student_id>")
 def get_student(student_id):
     s = student.query.get(student_id)
+    c = enrollments.query.filter_by(estudent_id = student_id)
+    cs = []
     if s:
-        return render_template("student.html", stud = s)
+        # enrolls = enrollments.query.filter_by(estudent_id = student_id)
+        # print(s.s_enrollment)
+        return render_template("student.html", stud = s, cs = c)
     return render_template("404.html", data = "Student")
 
 
@@ -127,7 +144,7 @@ def create_course():
 
         checking = course.query.filter_by(course_code = course_code).first()
         if checking:
-            return render_template("course_already_exists")
+            return render_template("course_already_exists.html")
 
 
         course_item = course(course_code = course_code, course_name = course_name, course_description = course_description)
@@ -145,7 +162,7 @@ def create_course():
 @app.route("/course/<int:course_id>/update", methods = ['GET', 'POST'])
 def update_course(course_id):
     if request.method == 'POST':
-        course_code = request.form['code']
+        
         course_name = request.form['c_name']
         course_description = request.form.get('desc', '')
 
@@ -158,6 +175,7 @@ def update_course(course_id):
         
 
     data = course.query.get(course_id)
+    
     return render_template("update_course.html", data = data)
 
 
@@ -167,7 +185,7 @@ def update_course(course_id):
 def del_course(course_id):
     course_detail = course.query.get(course_id)
     if course_detail:
-        course.query.get(course_id).delete()
+        course.query.filter_by(course_id = course_id).delete()
         if enrollments.query.filter_by(ecourse_id = course_id):
             enrollments.query.filter_by(ecourse_id = course_id).delete()
         db.session.commit()
@@ -179,11 +197,16 @@ def del_course(course_id):
 @app.route("/course/<int:course_id>")
 def course_details(course_id):
     course_data = course.query.get(course_id)
-    e_data = enrollments.query.get(ecourse_id = course_id)
-    return render_template("course_details.html", course_data = course_data)
+    enrolls = enrollments.query.filter_by(ecourse_id = course_id)
+    studs = []
+    
+    for e in enrolls:
+        studs.append(e.stud)
+    
+    return render_template("course_details.html", course_data = course_data, studs = studs)
     
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
