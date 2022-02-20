@@ -29,7 +29,7 @@
     
     <h2>Enrollment Details</h2>
     <!-- if enrollment existe -->
-    {% if enrollments %}
+    {% if cs %}
     <table id = "student-enrollments">
         <thead>
             <tr>
@@ -42,12 +42,12 @@
         </thead>
 
         <tbody>
-            {% for e in enrollments %}
+            {% for e in cs %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ e.course_code }}</td>
-                <td>{{ e.course_name }}</td>
-                <td>{{ e.course_description }}</td>
+                <td>{{ e.cours.course_code }}</td>
+                <td>{{ e.cours.course_name }}</td>
+                <td>{{ e.cours.course_description }}</td>
                 <td>
                 <a href="/student/{{ e.estudent_id }}/withdraw/{{ e.ecourse_id }}">Withdraw</a>
                 </td>
