@@ -23,9 +23,9 @@
             {% for x in all_list %}
             <tr>
             <td>{{ loop.index }}</td>
-            <td><a href="/student/{{ x.student_id }}">{{ x.roll_number_1 }}</a></td>
-            <td>{{ x.first_name_1 }}</td>
-            <td>{{ x.last_name_1 }}</td>
+            <td><a href="/student/{{ x.student_id }}">{{ x.roll_number }}</a></td>
+            <td>{{ x.first_name }}</td>
+            <td>{{ x.last_name }}</td>
             <td>
             <a href="/student/{{ x.student_id }}/update">Update</a>
             <a href="/student/{{ x.student_id }}/delete">Delete</a>
@@ -37,7 +37,8 @@
         {% else %}
         <p>No student found. Add the students now!</p>
         {% endif %} 
-        <a href="/student/create">+ Add Student</a>
+        <a href="/student/create">+ Add Student</a><br><br>
+        <a href="/courses">Go to Courses</a>
     </div>
 </body>
 </html>
