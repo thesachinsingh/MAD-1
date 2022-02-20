@@ -9,7 +9,7 @@
 <body>
     
 
-    <form action="/course/{{ course_id }}/update" method="POST" id="update-course-form">
+    <form action="/course/{{data.course_id}}/update" method="POST" id="update-course-form">
         <div>
             <label>Course Code:</label>
             <input type="text" name="code" value={{data.course_code}} disabled />
@@ -22,7 +22,7 @@
         
         <div>
             <label>Course Description:</label>
-            <input type="text" name="desc" value={{data.course_description}}/>
+            <input type="text" name="desc" value={{data.course_description}} />
         </div>
         
         <div>
